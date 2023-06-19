@@ -4,37 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-//import TodoValidator from '../validator';
-//import Middleware from '../../middleware';
-//import TodoController from '../controller';
-const user_1 = __importDefault(require("../../controllers/user"));
+const user_1 = __importDefault(require("./../../validators/user"));
+const middlewares_1 = __importDefault(require("./../../middlewares"));
+const user_2 = __importDefault(require("../../controllers/user"));
 const router = express_1.default.Router();
-router.post('/create', 
-//TodoValidator.checkCreateTodo(),
-//Middleware.handleValidationError,
-user_1.default.create);
-// router.get(
-// 	'/read',
-// 	TodoValidator.checkReadTodo(),
-// 	Middleware.handleValidationError,
-// 	TodoController.readPagination
-// );
-// router.get(
-// 	'/read/:id',
-// 	TodoValidator.checkIdParam(),
-// 	Middleware.handleValidationError,
-// 	TodoController.readByID
-// );
-// router.put(
-// 	'/update/:id',
-// 	TodoValidator.checkIdParam(),
-// 	Middleware.handleValidationError,
-// 	TodoController.update
-// );
-// router.delete(
-// 	'/delete/:id',
-// 	TodoValidator.checkIdParam(),
-// 	Middleware.handleValidationError,
-// 	TodoController.delete
-// );
+router.post('/create', user_1.default.checkCreateUser(), middlewares_1.default.handleValidationError, user_2.default.create);
+router.get('/read', user_1.default.checkReadUser(), middlewares_1.default.handleValidationError, user_2.default.readPagination);
+router.get('/read/:Id', user_1.default.checkIdParam(), middlewares_1.default.handleValidationError, user_2.default.readByID);
+router.put('/update/:Id', user_1.default.checkIdParam(), middlewares_1.default.handleValidationError, user_2.default.update);
+router.delete('/delete/:Id', user_1.default.checkIdParam(), middlewares_1.default.handleValidationError, user_2.default.delete);
 exports.default = router;

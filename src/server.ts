@@ -1,8 +1,7 @@
 import app from './app'
-import dbMySql from './config/dbconfig'
+import dbMySql from './config/database'
 import dotenv from 'dotenv'
 dotenv.config()
-dbMySql.Sequelize;
 
 const port = process.env.PORT || 3000 // Use the value of PORT environment variable or default to 3000
 

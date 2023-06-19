@@ -1,11 +1,23 @@
+import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('pospcrmnode', 'root', 'Password', {
-	host: 'localhost',
-	dialect: 'mysql',
+dotenv.config();
+
+const databaseName = process.env.DB_DATABASE_NAME;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+
+if (!databaseName || !dbUser || !dbPassword) {
+	throw new Error('Missing or undefined database configuration');
+  }
+  
+const db = new Sequelize(databaseName, dbUser, dbPassword, {
+  host: 'localhost',
+  dialect: 'mysql',
 });
 
 export default db;
+
 
 // import { Sequelize, Op } from 'sequelize';
 // import dotenv from 'dotenv';

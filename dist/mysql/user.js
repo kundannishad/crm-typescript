@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserInstance = void 0;
 const sequelize_1 = require("sequelize");
-const dbconfig_1 = __importDefault(require("./../config/dbconfig"));
+const database_1 = __importDefault(require("../config/database"));
 class UserInstance extends sequelize_1.Model {
 }
 exports.UserInstance = UserInstance;
@@ -13,7 +13,8 @@ UserInstance.init({
     Id: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        autoIncrement: true
     },
     FirstName: {
         type: sequelize_1.DataTypes.STRING,
@@ -25,15 +26,18 @@ UserInstance.init({
     },
     MobileNo: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Email: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     UserName: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Password: {
         type: sequelize_1.DataTypes.STRING,
@@ -45,7 +49,7 @@ UserInstance.init({
         defaultValue: false
     }
 }, {
-    sequelize: dbconfig_1.default,
+    sequelize: database_1.default,
     tableName: 'Users',
     timestamps: false // Disable automatic timestamps
 });
