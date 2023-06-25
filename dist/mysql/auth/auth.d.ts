@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 import { UserType } from '../../interface/auth';
-declare class User extends Model<UserType> implements UserType {
+declare class Auth extends Model<UserType> implements UserType {
     id: number;
     first_name: string;
     last_name: string;
@@ -20,4 +20,4 @@ declare class User extends Model<UserType> implements UserType {
     created_at: Date;
     updated_at: Date;
 }
-export { User };
+export { Auth };

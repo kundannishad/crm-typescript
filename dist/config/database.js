@@ -3,13 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
+const sequelize_1 = require("sequelize");
 dotenv_1.default.config();
-const dbName = process.env.DB_DATABASE;
+const databaseName = process.env.DB_DATABASE_NAME;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
-const db = new sequelize_1.Sequelize(dbName, dbUser, dbPassword, {
+if (!databaseName || !dbUser || !dbPassword) {
+    throw new Error('Missing or undefined database configuration');
+}
+const db = new sequelize_1.Sequelize(databaseName, dbUser, dbPassword, {
     host: 'localhost',
     dialect: 'mysql',
 });

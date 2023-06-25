@@ -1,29 +1,39 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
+import { AuthModel } from './../../models/auth'
+import { ResponseHelper } from "../../helpers/responseHelper";
 
-import AuthModel from './../../models/auth' 
+import jwt from "jsonwebtoken";
 
- export  class AuthApiController {
+import { secret } from "../../config/auth";
 
-    async details(req: Request, res: Response): Promise<void> {
-        try {
-          const id: number = parseInt(req.params.id, 10);
-          console.log("adsaf",id)
-          const result = await AuthModel.getById(id);
-          
-          // Handle the result as needed
-          res.json(result);
-        } catch (error) {
-          // Handle the error appropriately
-          res.status(500).json({ error: 'An error occurred' });
-        }
-      }
-      
-      
-    
+
+
+
+class AuthApiController {
+
+  async details(req: Request, res: Response): Promise<void> {
+    try {
+      const id: number = parseInt(req.params.id, 10);
+      const result = await AuthModel.getById(id);
+      const message = "User Retrive successfully !"
+      ResponseHelper.sendSuccess(res, result, message);
+
+    } catch (error: any) {
+      ResponseHelper.sendError(res, error.message);
+    }
   }
 
-  
-  //module.exports = new AuthModel();
+  async signup(req: Request, res: Response): Promise<void> {
+    var token = jwt.sign({ id: 1 }, secret, {
+      expiresIn: 86400
+    });
+
+    const message = "User Retrive successfully !"
+    ResponseHelper.sendSuccess(res, token, message);
+  }
+}
 
 
-  
+export { AuthApiController };
+
+

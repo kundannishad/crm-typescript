@@ -10,8 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthApiController = void 0;
+const auth_1 = require("./../../models/auth");
 class AuthApiController {
-    signup() {
+    details(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = parseInt(req.params.id, 10);
+                const result = yield auth_1.AuthModel.getById(id);
+                res.status(200).send(result);
+            }
+            catch (error) {
+                // Handle the error appropriately
+                res.status(500).json({ error: error });
+            }
+        });
+    }
+    signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
         });
     }
