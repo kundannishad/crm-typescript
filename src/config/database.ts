@@ -1,68 +1,25 @@
-import dotenv from 'dotenv';
-import { Sequelize } from 'sequelize';
+import { Sequelize, Dialect } from "sequelize";
+import config from "./database.config";
 
-dotenv.config();
+const { DB, USER, PASSWORD, HOST, dialect, pool } = config;
 
-const databaseName = process.env.DB_DATABASE_NAME;
-const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
+if (typeof dialect !== "string") {
+  throw new Error("Invalid database dialect");
+}
 
-if (!databaseName || !dbUser || !dbPassword) {
-	throw new Error('Missing or undefined database configuration');
-  }
-  
-const db = new Sequelize(databaseName, dbUser, dbPassword, {
-  host: 'localhost',
-  dialect: 'mysql',
+const dbMySql = new Sequelize(DB, USER, PASSWORD, {
+  host: HOST,
+  dialect: dialect as Dialect,
+  pool,
 });
 
-export default db;
+dbMySql
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database:", error);
+  });
 
-
-// import { Sequelize, Op } from 'sequelize';
-// import dotenv from 'dotenv';
-// dotenv.config();
-
-// // Variable to hold all models
-// const dbMySql: any = {}; // You can replace `any` with appropriate types for your models
-
-// const host = process.env.DB_HOST;
-// const database = process.env.DB_DATABASE;
-// const username = process.env.DB_USER;
-// const password = process.env.DB_PASSWORD;
-
-// if (!host || !database || !username || !password) {
-//     throw new Error('Missing required environment variables');
-// }
-
-// const sequelize = new Sequelize(database, username, password, {
-//     host: host,
-//     dialect: 'mysql',
-//     operatorsAliases: {},
-//    // timezone: 'Asia/Kolkata',
-//     pool: {
-//         max: 10,
-//         min: 0,
-//         acquire: 30000,
-//         idle: 10000
-//     },
-//     logging: console.log,
-//     define: {
-//         timestamps: false
-//     }
-// });
-
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log('Connection has been established successfully.');
-//     })
-//     .catch((err) => {
-//         console.error('DBMySql Connection failed:', err);
-//     });
-
-// dbMySql.Sequelize = Sequelize;
-// dbMySql.sequelize = sequelize;
-// dbMySql.Operator = Op;
-
-// export default dbMySql;
+export default dbMySql;
